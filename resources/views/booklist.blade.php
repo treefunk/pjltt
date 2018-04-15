@@ -38,7 +38,6 @@
 				<b>Reference Number and Payor's Name:</b> FRAG 491416 PJL travel and Tours<br><br>
 				<hr>
 				<em><b>Note:</b> If not paid within 24 hrs., your reservation will expire. Do not close this tab yet 'til you upload your payment receipt.</em>
-				<h4>{{var_dump($book)}}</h4>
 				<br><br>
 				<h3>Upload your payment receipt here:</h3>
 			</div>
