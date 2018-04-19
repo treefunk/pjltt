@@ -9,11 +9,6 @@ class Book extends Model
     public $primary = 'id';
     public $timestamps = false;
 
-    public function tour()
-    {
-        return $this->hasOne('App\Tour','id', 'packageitenary_id');
-    }
-
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -22,6 +17,11 @@ class Book extends Model
     public function booking_proof()
     {
         return $this->hasOne('App\BookingProof');
+    }
+
+    public function package()
+    {
+        return $this->belongsTo('App\Package','packageitenary_id');
     }
 
 }

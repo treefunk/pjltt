@@ -8,4 +8,9 @@ class Package extends Model
 {
     protected $table = 'packageitenary';
     public $primary = 'id';
+
+    public function tour()
+    {
+        return $this->belongsTo('App\Tour','tour_id','id');
+    }
 }

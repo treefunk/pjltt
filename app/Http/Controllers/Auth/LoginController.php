@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use URL;
+use App\LoginReport;
 class LoginController extends Controller
 {
     /*
@@ -44,6 +45,10 @@ class LoginController extends Controller
         if($user->position === 1) {
             return redirect()->intended('/admin');
         }
+        LoginReport::Create([
+            'user_id' => auth()->user()->id,
+            'action' => 'Signed In',
+        ]);
 
         return redirect()->intended('/');
     }

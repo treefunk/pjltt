@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\MailConf;
+use Carbon\Carbon;
 
 use Mail;
 use App\Mail\NewUserWelcome;
@@ -53,13 +54,23 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+
+        $datenow = new Carbon;
+        $before = $datenow->subYears(19)->format('Y-m-d');
+
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'birth_date' => "required|date|before:{$before}",
+            'contact_no' => "required",
+            'address' => "required"
+        ],[
+            'birth_date.before' => "You must be age 19 or above!"
         ]);
     }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -69,6 +80,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        //$data['c'] = new Carbon(new Carbon\DateTimeZone('Asia/Hong_kong'));
+        //$data['']
+
         $id = User::create([
             'name' => $data['name'],
             'lname' => $data['lname'],
@@ -76,6 +90,9 @@ class RegisterController extends Controller
             'position' => 0, 
             'email_conf' => 0,
             'password' => Hash::make($data['password']),
+            'contact_no' => $data['contact_no'],
+            'address' => $data['address'],
+            'birth_date' => $data['birth_date']
         ]);
 
         $code = $this->generateRandomString();
@@ -84,7 +101,6 @@ class RegisterController extends Controller
         $mail->user_id = $id->id;
         $mail->code = $code;
         $mail->save();
-
         Mail::to($data['email'])->send(new NewUserWelcome($code));
         return $id;
     }

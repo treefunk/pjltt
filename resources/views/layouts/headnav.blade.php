@@ -51,21 +51,27 @@
 						
 						<ul id="nav-top" class="nav navbar-nav navbar-right">
 							<li><a href="{{url('')}}" class="page-scroll">Home</a></li>
+
+							@if(!Auth::check() || Auth::user()->position == 0)
 							<li><a href="{{url('about')}}" class="page-scroll">About</a></li>
 							<li><a href="{{url('faq')}}" class="page-scroll">FAQs</a></li>
 							<li><a href="{{url('contact')}}"  class="page-scroll">Contact</a></li>
 							<li><a href="{{url('offerpage')}}" class="page-scroll">Offers</a></li>
-
+							<li><a href="{{url('bookrequests')}}" >Book</a></li>
+							@endif
+							
+							@if(Auth::check() && Auth::user()->position == 1)
+							<li><a href="{{url('admin')}}" class="page-scroll">Backoffice</a></li>
+							<li><a href="{{url('inquiries')}}" class="page-scroll">Inquiries</a></li>
+							<li><a href="{{url('loginreports')}}" class="page-scroll">Login Reports</a></li>
+							@endif
 							@if(!Auth::check())
 							<li><a data-toggle="modal" data-target="#register" class="page-scroll">Register</a></li>
 							<li><a data-toggle="modal" data-target="#login" class="page-scroll">LogIn</a></li>
 							@else
-							@if( Auth::user()->position == 1)
-							<li><a href="{{url('admin')}}" class="page-scroll">Backoffice</a></li>
-							@endif
+		
 							<li><a href="#" class="page-scroll">Hello, {{ Auth::user()->name }}</a></li>
-							<li><a href="{{url('bookrequests')}}" class="page-scroll">Book</a></li>
-							<li><a class="dropdown-item" href="{{ route('logout') }}">Log Out</a></li>
+							<li><a href="{{ route('logout') }}">Log Out</a></li>
 							@endif
 
 						</ul>

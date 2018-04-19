@@ -80,11 +80,12 @@
 					<td>{{$data['list'][$x][3]}}</td>
 					<td>{{$data['list'][$x][1]}}</td>
 					<td>{{$data['list'][$x][2]}}</td>
-					<td>
+					<td colspan="2">
 						@if($data['list'][$x][1]=='Approved')
-						<a href="{{url('printpdf')}}/{{$data['list'][$x][0]}}">Print</a>
+						<a class="btn btn-default" href="{{url('printpdf')}}/{{$data['list'][$x][0]}}">Print</a>
 						@endif
-						</td>
+						<a class="btn btn-default" href="viewbooking/{{$data['list'][$x][0]}}">View Booking</a>
+					</td>
 				</tr>
 				@endfor
 			</tbody>

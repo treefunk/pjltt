@@ -60,9 +60,7 @@
 							<li><a data-toggle="modal" data-target="#register" class="page-scroll">Register</a></li>
 							<li><a data-toggle="modal" data-target="#login" class="page-scroll">LogIn</a></li>
 							@else
-							@if( Auth::user()->position == 1)
-							<li><a href="#" class="page-scroll">Backoffice</a></li>
-							@endif
+
 							<li><a href="#" class="page-scroll">Hello, {{ Auth::user()->name }}</a></li>
 							<li><a href="{{url('bookrequests')}}" class="page-scroll">Book</a></li>
 							<li><a class="dropdown-item" href="{{ route('logout') }}">Log Out</a></li>

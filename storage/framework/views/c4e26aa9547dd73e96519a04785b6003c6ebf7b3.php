@@ -51,21 +51,27 @@
 						
 						<ul id="nav-top" class="nav navbar-nav navbar-right">
 							<li><a href="<?php echo e(url('')); ?>" class="page-scroll">Home</a></li>
+
+							<?php if(!Auth::check() || Auth::user()->position == 0): ?>
 							<li><a href="<?php echo e(url('about')); ?>" class="page-scroll">About</a></li>
 							<li><a href="<?php echo e(url('faq')); ?>" class="page-scroll">FAQs</a></li>
 							<li><a href="<?php echo e(url('contact')); ?>"  class="page-scroll">Contact</a></li>
 							<li><a href="<?php echo e(url('offerpage')); ?>" class="page-scroll">Offers</a></li>
-
+							<li><a href="<?php echo e(url('bookrequests')); ?>" >Book</a></li>
+							<?php endif; ?>
+							
+							<?php if(Auth::check() && Auth::user()->position == 1): ?>
+							<li><a href="<?php echo e(url('admin')); ?>" class="page-scroll">Backoffice</a></li>
+							<li><a href="<?php echo e(url('inquiries')); ?>" class="page-scroll">Inquiries</a></li>
+							<li><a href="<?php echo e(url('loginreports')); ?>" class="page-scroll">Login Reports</a></li>
+							<?php endif; ?>
 							<?php if(!Auth::check()): ?>
 							<li><a data-toggle="modal" data-target="#register" class="page-scroll">Register</a></li>
 							<li><a data-toggle="modal" data-target="#login" class="page-scroll">LogIn</a></li>
 							<?php else: ?>
-							<?php if( Auth::user()->position == 1): ?>
-							<li><a href="<?php echo e(url('admin')); ?>" class="page-scroll">Backoffice</a></li>
-							<?php endif; ?>
+		
 							<li><a href="#" class="page-scroll">Hello, <?php echo e(Auth::user()->name); ?></a></li>
-							<li><a href="<?php echo e(url('bookrequests')); ?>" class="page-scroll">Book</a></li>
-							<li><a class="dropdown-item" href="<?php echo e(route('logout')); ?>">Log Out</a></li>
+							<li><a href="<?php echo e(route('logout')); ?>">Log Out</a></li>
 							<?php endif; ?>
 
 						</ul>

@@ -139,7 +139,7 @@
             $(function () {
                 $('#editout').datetimepicker({
 										defaultDate: Date.now(),
-										minDate: moment(1, 'h')
+										minDate: moment(-1, 'h')
                 });
             });
 </script>

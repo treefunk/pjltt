@@ -16,26 +16,23 @@
 
       <div class="col-md-offset-3 col-md-6 page-block">
         <h1>Any questions?</h1>
-            <form style="padding-bottom:80px">
+            <form style="padding-bottom:80px" method="POST" action="/contact">
+                {{csrf_field()}}
                 <div class="form-group">
+                
                     <label for="exampleInputName">Name</label>
-                    <input type="email" class="form-control" id="exampleInputName" placeholder="Name">
+                    <input type="text" class="form-control" id="exampleInputName" placeholder="Name" name="name" value="{{old('name')}}">
+                    {{$errors->first('name')}}
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" name="email" value="{{old('email')}}">
+                    {{$errors->first('email')}}
                 </div>
                 <div class="form-group">
                     <label for="exampleInputMessage">Message</label>
-                    <textarea placeholder="Add your message"></textarea>
-                </div>
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="yes" checked="">
-                    <label> I agree to your terms. </label>
+                    <textarea placeholder="Add your message" name="message" value="{{old('message')}}"></textarea>
+                    {{$errors->first('message')}}
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
         </form>

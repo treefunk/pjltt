@@ -12,6 +12,9 @@ use Mail;
 use App\Mail\NewUserWelcome;
 use PDF;
 use App\BookingProof;
+use App\Inquiry;
+use Illuminate\Support\Facades\Storage;
+use App\LoginReport;
 
 class UserController extends Controller
 {
@@ -38,11 +41,9 @@ class UserController extends Controller
     }
 
     public function pdf($id){
-        $data['bookinfo'] = Book::find($id);
-        $data['userinfo'] =  Book::find($data['bookinfo']->id)->tour;
-        $data['user'] = User::find($data['bookinfo']->user_id);
+        $book = Book::find($id);
 
-        $pdf = PDF::loadView('pdf', ['data'=> $data]);
+        $pdf = PDF::loadView('pdf', ['book' => $book]);
         return $pdf->download('receipt.pdf');
     }
 
@@ -156,17 +157,17 @@ class UserController extends Controller
     }
 
     public function adminbookstatus($id){
-        $data['bookinfo'] = Book::find($id);
-        $data['userinfo'] =  Book::find($data['bookinfo']->id)->tour;
-        $data['user'] = User::find($data['bookinfo']->user_id);
-        $data['bookingproof'] = $data['bookinfo']->booking_proof;
-        return view('admin.adminviewbook')->with('data',$data); 
+        $book = Book::find($id);
+        // $user =  Book::find($data['bookinfo']->id)->tour;
+        // $data['user'] = User::find($data['bookinfo']->user_id);
+        // $data['bookingproof'] = $data['bookinfo']->booking_proof;
+        return view('admin.adminviewbook')->with('book',$book); 
     }
     
     public function confirm(Request $request){
         $user = User::find(Auth::id());
-
         if($request->code===$user->mail->code){
+            
             $user->email_conf = 1;
             $user->save();
         }
@@ -201,12 +202,17 @@ class UserController extends Controller
 
     public function submitProof(Request $request)
     {
-        //die(request()->file('pic')());
         $bookId = request()->post('book_id');
-        $filename = auth()->user()->id."_".$bookId."_".request()->file('pic')->getClientOriginalName();
-        $path = request()->pic->storeAs('images',$filename);
-        $book = Book::find($bookId);
-        $bookingproof = $book->booking_proof()->create(['picture_path' => request()->file('pic')->getClientOriginalName()]);
+        if ($request->hasFile('pic')) {
+            $filename = auth()->user()->id."_".$bookId."_".request()->file('pic')->getClientOriginalName();
+            $files = glob(storage_path()."/app/images/".auth()->user()->id."_".$bookId."_"."*");
+            if(count($files) > 0){
+                Storage::delete($files);  
+            }
+            $path = request()->pic->storeAs('images',$filename); 
+            $book = Book::find($bookId);
+            $bookingproof = $book->booking_proof()->create(['picture_path' => request()->file('pic')->getClientOriginalName()]);
+        }
         $userbookings = auth()->user()->books();
         $this->bookRequests();
         return redirect()->action('UserController@bookRequests');
@@ -218,8 +224,48 @@ class UserController extends Controller
             $book = BookingProof::find($receiptId)->book;
             $user = $book->user;
             $proof = $book->booking_proof;
-            return response()->download(storage_path("app/images/{$user->id}_{$book->id}_{$proof->picture_path}"));
+            return response()->download(storage_path("app/images/{$user->id}_{$book->id}_{$proof->picture_path}"),$proof->picture_path);
         }
     }
 
+    // non logged in user
+    public function submitContact()
+    {
+        $validator = validator(request()->post(),[
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            'message' => 'required'
+        ]);
+
+        if($validator->validate()){
+            Inquiry::create(request()->post());
+            return redirect()->back();
+        }else{
+            return redirect()->back();
+        }
+        
+    }
+
+    // admin 
+    public function getInquiries()
+    {
+        $inquiries = Inquiry::all();
+        return view('inquiries',compact(['inquiries']));
+    }
+
+    public function viewBooking($id)
+    {
+        $booking = Book::find($id);
+        return view('viewbooking',compact(['booking']));
+    }
+
+    public function getLoginReports()
+{
+        $loginreports = LoginReport::all();
+        return view('loginreports',compact(['loginreports']));
+    }
+
+
 }
+
+

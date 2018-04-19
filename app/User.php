@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','lname','position','email_conf'
+        'name', 'email', 'password','lname','position','email_conf','contact_no','address','birth_date','address'
     ];
 
     /**
@@ -36,5 +36,10 @@ class User extends Authenticatable
     public function mail()
     {
         return $this->hasOne('App\MailConf');
+    }
+
+    public function login_report()
+    {
+        return $this->hasOne('App\LoginReport');
     }
 }

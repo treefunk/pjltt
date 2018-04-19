@@ -103,6 +103,44 @@
 							@endif
 						</div>
 					</div>
+
+
+					<div class="form-group row">
+						<label for="contact_no" class="col-md-4 col-form-label text-md-right">{{ __('Contact No.') }}</label>
+						<div class="col-md-6">
+							<input id="contact_no" type="text" class="form-control{{ $errors->has('contact_no') ? ' is-invalid' : '' }}" name="contact_no" value="{{ old('contact_no') }}" required>
+							@if ($errors->has('contact_no'))
+							<span class="invalid-feedback">
+								<strong>{{ $errors->first('contact_no') }}</strong>
+							</span>
+							@endif
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="birth_date" class="col-md-4 col-form-label text-md-right">{{ __('Birth Date') }}</label>
+						<div class="col-md-6">
+							<input id="birth_date" type="date" class="form-control{{ $errors->has('birth_date') ? ' is-invalid' : '' }}" name="birth_date" value="{{ old('birth_date') }}" required>
+							@if ($errors->has('birth_date'))
+							<span class="invalid-feedback">
+								<strong>{{ $errors->first('birth_date') }}</strong>
+							</span>
+							@endif
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
+						<div class="col-md-6">
+							<input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" required>
+							@if ($errors->has('address'))
+							<span class="invalid-feedback">
+								<strong>{{ $errors->first('address') }}</strong>
+							</span>
+							@endif
+						</div>
+					</div>
+
+
+
 					<div class="form-group row">
 						<label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 						<div class="col-md-6">
@@ -122,13 +160,19 @@
 					</div>
 					<div class="form-group row mb-0">
 						<div class="col-md-6 offset-md-4">
+							<input type="checkbox" required>I Have read the <a data-toggle="modal" data-target="#terms">Terms and conditions</a>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
+				<div class="row">
+				<a id="have">Have an account? Log in here</a>
+				</div>
+				<div class="row">
 					<button type="submit" class="btn btn-primary">
 					{{ __('Register') }}
 					</button><button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -176,6 +220,7 @@
 							</div>
 						</div>
 					</div>
+					<a id="donthave">Don't Have an account? register here</a>
 					{{-- 		<div class="form-group row mb-0">
 						<div class="col-md-8 offset-md-4">
 							<a class="btn btn-link" href="{{ route('password.request') }}">
@@ -194,6 +239,41 @@
 		</div>
 	</form>
 </div>
+
+
+
+<div class="modal fade" role="dialog" id="terms">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Terms and condition</h4>
+				</div>
+				<div class="modal-body">
+					@include('layouts.terms')
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -211,9 +291,27 @@ new WOW().init();
 </script>
 <script>
 jQuery(document).ready(function( $ ) {
-$('.counter').counterUp({
-delay: 10,
-time: 1000
+	$('.counter').counterUp({
+	delay: 10,
+	time: 1000
+	});
+
+	$('#donthave').on('click',(e) => {
+		e.preventDefault();
+		$("#login").modal('hide');
+		$("#register").modal('show');
+	})
+
+	$('#have').on('click',(e) => {
+		e.preventDefault();
+		$("#register").modal('hide');
+		$("#login").modal('show');
+	})
+
+	$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
 });
 });
 </script>
