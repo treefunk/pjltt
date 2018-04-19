@@ -137,9 +137,12 @@
 <script>
 
             $(function () {
+							var dateOffset = (24*60*60*1000) * 5
+							var current = new Date()
+							var dt = current.setTime(current.getTime() + dateOffset);
                 $('#editout').datetimepicker({
-										defaultDate: Date.now(),
-										minDate: moment(-1, 'h')
+										defaultDate: dt,
+										minDate: dt
                 });
             });
 </script>
