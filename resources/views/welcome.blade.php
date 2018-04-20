@@ -5,7 +5,7 @@
     ==========================================-->
 <section id="home-banner">
   <video id="video-bg1" preload="auto" autoplay loop muted="muted">
-      <source src="img/bg1.mp4" type="video/mp4">
+      <source src="img/beach2.mp4" type="video/mp4">
       </video>
   <div class="content">
     <div class="container"  data-wow-duration="1s"> <span class="wow fadeIn">Your reliable travel companion.</span>
