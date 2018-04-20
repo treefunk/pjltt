@@ -2,9 +2,9 @@
 <html>
 <body>
 
-<img src="{{asset('img/receipt header.png')}}" alt="logo" width="328" height="82" align="right" style="margin-right:105px;">
+<img src="{!!asset('img/receipt header.png')!!}" alt="logo" width="328" height="82" align="right" style="margin-right:105px;">
 <br><br>
-<img src="{{asset('img/paid.png')}}" alt="paid" width="139" height="42" align="left" style="margin-left:100px;"><br>
+<img src="{!!asset('img/paid.png')!!}" alt="paid" width="139" height="42" align="left" style="margin-left:100px;"><br>
 
 <hr style="margin-left:100px; margin-right:100px;margin-top:50px; background-color:#91d177;"><br>
 <b style="margin-left:100px;" >BOOKING ID: {{ $book->id }}</b><br><br>
