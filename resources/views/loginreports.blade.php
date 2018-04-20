@@ -24,8 +24,9 @@
                 </thead>
                 <tbody>
                     @foreach($loginreports as $report)
+                        <?php if($report == NULL): break; endif; ?>
                     <tr>
-                        <td>{{$report->user->name}}</td>
+                        <td>{{$report->user->name ?? "User deleted"}}</td>
                         <td>{{$report->action}}</td>
                         <td>{{$report->created_at}}</td>
                     </tr>

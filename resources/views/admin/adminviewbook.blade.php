@@ -3,7 +3,7 @@
 	<div class="content  wow fdeInUp">
 		<div class="container ">
 			<h1>Book No: {{$book->id}}</h1><br>
-			<h4>Submitted by: {{ $book->user->name }} {{ $book->user->lname }}</h4>
+			<h4>Submitted by: {{ $book->user->name ?? "" }} {{ $book->user->lname ?? ""}}</h4>
 		</div>
 	</div>
 </div>
@@ -11,9 +11,10 @@
 	<div id="page-body">
 		<div class="container">
 			<h4>Book Title: {{$book->package->tour->title}}</h4>
-			<h4>Book by: {{ $book->user->name }} {{ $book->user->lname }}</h4>
+			<h4>Book by: {{ $book->user->name ?? "User deleted" }} {{ $book->user->lname ?? "" }}</h4>
 			<h4>Departure Date:  {{ $book->departuredate }}</h4>
-			<h4>Email: {{ $book->user->email }} </h4>
+		<h4>Booking Date: {{ $book->created_at}}</h4>
+			<h4>Email: {{ $book->user->email ?? "" }} </h4>
 			<h4>No# of Guest: {{ $book->guest }}</h4>
 			<h4>Price Per Person: {{ 'PHP ' . $book->package->tour->price }}</h4>
 			<h4>Total Price: {{ ($book->guest * $book->package->tour->price)  }}</h4>
